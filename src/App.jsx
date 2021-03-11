@@ -19,6 +19,7 @@ const App = () => {
                     <li><Link to='/'>React</Link></li>
                     <li><Link to='/vue'>vue</Link></li>
                     <li><Link to='/angular'>Angular</Link></li>
+                    <input type="textarea" vaue="" />
                 </ul>
                 <Route
                     exact
