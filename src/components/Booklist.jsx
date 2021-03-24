@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 
 const Booklist = props => {
     const [bookData, setBookData] = useState(null);
-
     useEffect(() => {
-        const result = props
-            .getData?.(props.language)
+        props.getData?.(props.language)
             .then((response) => setBookData(response));
     }, [props]);
+
     return (
-        <div>
+        <div class="mx-auto w-75 text-center">
             <table class="table">
                 <thead>
                     <tr>
@@ -25,13 +24,16 @@ const Booklist = props => {
                         bookData === null ? (
                             <p>now loading...</p>
                         ) : (
+
                             bookData.data.items.map((books, index) => (
                                 <tr key={index}>
                                     <th>{index + 1}</th>
                                     <td>{books.volumeInfo.title}</td>
                                     <td>{books.volumeInfo.authors}</td>
                                     <td>{books.volumeInfo.publishedDate}</td>
-                                    {/* <td>{books.volumeInfo.imageLinks.smallThumbnail ? <img src={books.volumeInfo.imageLinks.smallThumbnail} alt="" /> : 'NoImage'}</td> */}
+                                    <td>{books.volumeInfo.imageLinks
+                                        ? <img src={books.volumeInfo.imageLinks.smallThumbnail} alt='sampleImage' />
+                                        : <img src={`${process.env.PUBLIC_URL}/img/sample.png`} alt='getImage' />}</td>
                                 </tr>
                             ))
                         )

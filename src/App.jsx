@@ -1,29 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Booklist from './components/Booklist';
+
 import axios from 'axios';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 const getDataFromAPI = async keyword => {
     const requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=intitle:';
-    const result = await axios.get(`${requestUrl}${keyword}`);
-    return result;
+    return await axios.get(`${requestUrl}${keyword}`);
 }
 
 const App = () => {
-    const languages = ['React', 'Vue', 'Angular'];
+    const [text, setText] = useState('');
+    const handleChange = (e) => {
+        setText(() => e.target.value)
+    }
+
+    const languages = ['React', 'Vue', 'Angular', text];
     return (
         <BrowserRouter>
             <div>
-                <h1>react app</h1>
+                <h1>react app🍣</h1>
                 <ul>
                     <li><Link to='/'>React</Link></li>
                     <li><Link to='/vue'>vue</Link></li>
                     <li><Link to='/angular'>Angular</Link></li>
-                    <input type="textarea" vaue="" />
+                    <li>
+                        <input
+                            type='text'
+                            class='form-control w-25'
+                            placeholder='検索したい本の名前'
+                            onChange={handleChange}
+                        />
+                        <Link to={`/search/${text}`}><button class='btn btn-primary'>検索</button></Link>
+                    </li>
                 </ul>
+
+                <hr />
                 <Route
-                    exact
-                    path='/'
+                    exact path='/'
                     render={
                         props => <Booklist
                             language={languages[0]}
@@ -47,6 +61,16 @@ const App = () => {
                         props =>
                             <Booklist
                                 language={languages[2]}
+                                getData={keyword => getDataFromAPI(keyword)}
+                            />
+                    }
+                />
+                <Route
+                    path={`/search/${text}`}
+                    render={
+                        props =>
+                            <Booklist
+                                language={text}
                                 getData={keyword => getDataFromAPI(keyword)}
                             />
                     }
