@@ -14,7 +14,6 @@ const App = () => {
     const handleChange = (e) => {
         setText(() => e.target.value)
     }
-
     const languages = ['React', 'Vue', 'Angular', text];
     return (
         <BrowserRouter>
